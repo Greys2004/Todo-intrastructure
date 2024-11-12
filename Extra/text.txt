@@ -1,0 +1,7 @@
+ssh-keygen
+@
+./keys/greys_server
+
+ssh -i ./keys/greys_server root@64.23.171.116
+
+ apt-get install docker.io
