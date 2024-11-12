@@ -1,0 +1,50 @@
+name : Deploy Greys Almanza
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  TF_VAR_DO_TOKEN: ${{ secrets.DO_TOKEN }}
+  TF_VAR_MYSQL_DB: ${{ secrets.MYSQL_DB }}
+  TF_VAR_MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
+  TF_VAR_MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+  TF_VAR_MYSQL_USER: ${{ secrets.MYSQL_USER }}
+  
+jobs:
+  terraform-apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.9.8
+          terraform_wrapper: false
+        - name: Create SSH Keys from secrets
+          run:
+            mkdir keys
+            echo "${{ secrets.SHH_PRIVATE_KEY }}" > ./keys/greys_server
+            echo "${{ secrets.SHH_PUBLIC_KEY }}" > ./keys/greys_server.pub
+            chmod 777 ./keys/greys_server
+            chmod 777 ./keys/greys_server.pub
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform validate
+        run: terraform validate
+
+      - name: Terraform format
+        run: terraform fmt
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform Apply
+        run: terraform apply --auto-approve
