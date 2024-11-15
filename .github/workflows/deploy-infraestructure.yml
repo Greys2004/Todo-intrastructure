@@ -26,13 +26,13 @@ jobs:
         with:
           terraform_version: 1.9.8
           terraform_wrapper: false
-        - name: Create SSH Keys from secrets
-          run:
-            mkdir keys
-            echo "${{ secrets.SHH_PRIVATE_KEY }}" > ./keys/greys_server
-            echo "${{ secrets.SHH_PUBLIC_KEY }}" > ./keys/greys_server.pub
-            chmod 777 ./keys/greys_server
-            chmod 777 ./keys/greys_server.pub
+      - name: Create SSH Keys from secrets
+        run:
+          mkdir keys
+          echo "${{ secrets.SHH_PRIVATE_KEY }}" > ./keys/greys_server
+          echo "${{ secrets.SHH_PUBLIC_KEY }}" > ./keys/greys_server.pub
+          chmod 777 ./keys/greys_server
+          chmod 777 ./keys/greys_server.pub
 
       - name: Terraform Init
         run: terraform init
