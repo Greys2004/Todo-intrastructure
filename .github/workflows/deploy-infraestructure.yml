@@ -13,7 +13,8 @@ env:
   TF_VAR_MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
   TF_VAR_MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
   TF_VAR_MYSQL_USER: ${{ secrets.MYSQL_USER }}
-  
+
+
 jobs:
   terraform-apply:
     runs-on: ubuntu-latest
