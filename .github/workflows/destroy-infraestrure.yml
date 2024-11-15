@@ -1,4 +1,4 @@
-name : Deploy Greys Almanza
+name : Destroy Greys Almanza
 
 on:
   workflow_dispatch:
